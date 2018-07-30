@@ -5,36 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
 </head>
-<body>
-    <form>
-        <label for="nome">Nome:</label> <input type="text" id="nome" name="nome"><br>
-        <label for="sabor">Sabor:</label> <input type="text" id="sabor" name="sabor"><br>
-        <label for="descricao">Descrição:</label> <input type="text" id="descricao" name="descricao"><br>
-        <label for="preco">Preço:</label> <input type="text" id="preco" name="preco"><br>
-        <label for="qtd">Qtd:</label> <input type="number" id="qtd" name="qtd" min="1"><br>
-        <button type="submit" id="btnEnviar">Enviar</button>
-    </form>
+<body onload="carregaPasteis();">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <form>
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="sabor">Sabor:</label> 
+                        <input type="text" id="sabor" name="sabor" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição:</label> 
+                        <input type="text" id="descricao" name="descricao" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="preco">Preço:</label>
+                        <input type="text" id="preco" name="preco" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="qtd">Qtd:</label>
+                        <input type="number" id="qtd" name="qtd" min="1" class="form-control">
+                    </div>
+                    <button type="button" id="btnEnviar">Enviar</button>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="result">
+
+            </div>
+        </div>
+    </div>
 </body>
 <script>
-    var nome = document.getElementById("nome").value;
-    var sabor = document.getElementById("sabor").value;
-    var descricao = document.getElementById("descricao").value;
-    var preco = document.getElementById("preco").value;
-    var qtd = document.getElementById("qtd").value;
+    var txtNome = $("#nome").val();
+    var txtSabor = $("#sabor").val();
+    var txtDescricao = $("#descricao").val();
+    var txtPreco = $("#preco").val();
+    var txtQtd = $("#qtd").val();
 
     var pastel = {
-        nome: this.nome,
-        sabor: sabor,
-        descricao: descricao,
-        preco: preco,
-        qtd: qtd
+        nome: txtNome,
+        sabor: txtSabor,
+        descricao: txtDescricao,
+        preco: txtPreco,
+        qtd: txtQtd
     }
     console.log(pastel);
 
-    var btnEnviar = document.getElementById("btnEnviar").onclick = function(){
-        alert(pastel.nome);
-    };
+    $("#btnEnviar").click(function(){
+        var txtNome = $("#nome").val();
+        var txtSabor = $("#sabor").val();
+        var txtDescricao = $("#descricao").val();
+        var txtPreco = $("#preco").val();
+        var txtQtd = $("#qtd").val();
+
+        var pastel = {
+            nome: txtNome,
+            sabor: txtSabor,
+            descricao: txtDescricao,
+            preco: txtPreco,
+            qtde: txtQtd
+        }
+        
+        $.ajax({
+            url: "https://talentosapipastel.herokuapp.com/pastel",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(pastel)
+        }).done(function(data){
+            alert("Sucesso!");
+        }).fail(function(data){
+            alert("Falha!");
+        })
+
+
+    });
+
+
+    // document.getElementById("btnEnviar").onclick = function(){
+    //     alert(pastel.nome);
+    //     console.log(pastel);
+    // };
 
 </script>
+
 </html>
